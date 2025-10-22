@@ -1,4 +1,5 @@
 ﻿using System.ClientModel;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using ai_categorisation.Exceptions;
 using ai_categorisation.Interfaces;
@@ -41,6 +42,25 @@ public class CompletionService : ICompletionService
         return raw;
     }
 
+    public async IAsyncEnumerable<string> GetCompletionStreamAsync(string prompt, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        var updates = _client.CompleteChatStreamingAsync(
+        [
+            new UserChatMessage(prompt)
+        ]);
+
+        await foreach (var update in updates.WithCancellation(cancellationToken))
+        {
+            // Each update may contain 0..n content deltas; yield the text deltas
+            if (update.ContentUpdate.Count > 0)
+            {
+                var delta = update.ContentUpdate[0].Text;
+                if (!string.IsNullOrEmpty(delta))
+                    yield return delta;
+            }
+        }
+    }
+
     public async Task<T> GetStructuredCompletionAsync<T>(string prompt) where T : class
     {
         var schema = JsonSchema.FromType<T>();
@@ -68,11 +88,11 @@ public class CompletionService : ICompletionService
             throw new CompletionEmptyException("Received empty completion from model.");
 
         var result = JsonSerializer.Deserialize<T>(raw, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-                AllowTrailingCommas = true,
-                ReadCommentHandling = JsonCommentHandling.Skip
-            });
+        {
+            PropertyNameCaseInsensitive = true,
+            AllowTrailingCommas = true,
+            ReadCommentHandling = JsonCommentHandling.Skip
+        });
 
         if (result is null)
             throw new CompletionDeserializationException($"Could not deserialize model output into {typeof(T).Name}. Raw: {raw}");
