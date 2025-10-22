@@ -1,13 +1,23 @@
-﻿mode: Mainline
+﻿# GitVersion.yml
+workflow: GitHubFlow/v1
+commit-message-incrementing: Enabled
+
 branches:
   main:
     regex: ^main$
-    tag: ''
+    label: ''
+    increment: Patch
+    mode: ContinuousDelivery
+
   feature:
-    regex: ^(feature|feat)/
-    tag: useBranchName
+    regex: ^(feature|feat)[/-].+$
+    label: '{BranchName}'
+    mode: ManualDeployment
+
   hotfix:
-    regex: ^hotfix/
-    tag: hotfix
-commit-message-incrementing: Enabled
-# Use +semver: minor / +semver: major in a commit merged to main to bump accordingly.
+    regex: ^hotfix[/-].+$
+    label: '{BranchName}'
+    mode: ManualDeployment
+
+ignore:
+  sha: []
