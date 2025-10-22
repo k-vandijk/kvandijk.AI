@@ -20,7 +20,7 @@ jobs:
           dotnet-version: '9.x'
 
       - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v1
+        uses: gittools/actions/gitversion/setup@v3
         with:
           versionSpec: '6.x'
 
