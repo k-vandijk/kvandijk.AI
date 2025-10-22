@@ -8,7 +8,7 @@
     <!-- NuGet metadata -->
     <IsPackable>true</IsPackable>
     <PackageId>kvandijk.AI</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.1.$(Rev:r)</Version>
     <Authors>Kevin van Dijk</Authors>
     <Company>kvandijk</Company>
     <Description>Utilities and services for OpenAI in .NET (streaming, structured, etc.).</Description>
@@ -29,15 +29,18 @@
 
     <EnablePackageValidation>true</EnablePackageValidation>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <None Remove=".gitignore" />
+    <None Remove="CONTRIBUTE.md" />
+    <None Remove="GitVersion.yml" />
+    <None Remove="README.md" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Azure.Core" Version="1.49.0" />
     <PackageReference Include="NJsonSchema" Version="11.5.1" />
     <PackageReference Include="OpenAI" Version="2.5.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 </Project>
