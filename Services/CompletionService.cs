@@ -1,13 +1,13 @@
 ﻿using System.ClientModel;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
-using ai_categorisation.Exceptions;
-using ai_categorisation.Interfaces;
+using kvandijk.AI.Exceptions;
+using kvandijk.AI.Interfaces;
 using NJsonSchema;
 using OpenAI;
 using OpenAI.Chat;
 
-namespace ai_categorisation.Services;
+namespace kvandijk.AI.Services;
 
 public class CompletionService : ICompletionService
 {

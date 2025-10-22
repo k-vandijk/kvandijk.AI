@@ -1,0 +1,13 @@
+﻿mode: Mainline
+branches:
+  main:
+    regex: ^main$
+    tag: ''
+  feature:
+    regex: ^(feature|feat)/
+    tag: useBranchName
+  hotfix:
+    regex: ^hotfix/
+    tag: hotfix
+commit-message-incrementing: Enabled
+# Use +semver: minor / +semver: major in a commit merged to main to bump accordingly.

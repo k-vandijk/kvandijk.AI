@@ -1,4 +1,4 @@
-﻿namespace ai_categorisation.Exceptions;
+﻿namespace kvandijk.AI.Exceptions;
 
 public class CompletionEmptyException : Exception
 {

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36301.6 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ai_categorisation", "ai_categorisation.csproj", "{8C80FE2B-21FF-4335-B5C0-A10E0B220B0C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kvandijk.AI", "kvandijk.AI.csproj", "{8C80FE2B-21FF-4335-B5C0-A10E0B220B0C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

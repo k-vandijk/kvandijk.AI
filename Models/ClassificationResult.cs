@@ -1,4 +1,4 @@
-﻿namespace ai_categorisation.Models;
+﻿namespace kvandijk.AI.Models;
 
 public sealed class ClassificationResult
 {

@@ -1,6 +1,6 @@
 ﻿using OpenAI.Chat;
 
-namespace ai_categorisation.Interfaces;
+namespace kvandijk.AI.Interfaces;
 
 public interface ICompletionService
 {

@@ -36,8 +36,4 @@
     <PackageReference Include="OpenAI" Version="2.5.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="" Visible="false" Condition="Exists('README.md')" />
-  </ItemGroup>
 </Project>
