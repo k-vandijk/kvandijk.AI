@@ -28,12 +28,21 @@ public class CompletionService : ICompletionService
             });
     }
 
-    public async Task<string> GetCompletionAsync(string prompt)
+    public async Task<string> GetCompletionAsync(string prompt, CancellationToken ct = default)
     {
-        var completion = await _client.CompleteChatAsync(new[]
-        {
-            new UserChatMessage(prompt)
-        });
+        ChatMessage[] messages = [new UserChatMessage(prompt)];
+        return await GetCompletionAsync(messages, new ChatCompletionOptions(), ct);
+    }
+
+    public async Task<string> GetCompletionAsync(string prompt, IEnumerable<ChatMessage> chatHistory, CancellationToken ct = default)
+    {
+        ChatMessage[] messages = chatHistory.Append(new UserChatMessage(prompt)).ToArray();
+        return await GetCompletionAsync(messages, new ChatCompletionOptions(), ct);
+    }
+
+    private async Task<string> GetCompletionAsync(ChatMessage[] messages, ChatCompletionOptions options, CancellationToken ct)
+    {
+        var completion = await _client.CompleteChatAsync(messages, options, cancellationToken: ct);
 
         var raw = completion.Value.Content.FirstOrDefault()?.Text?.Trim();
         if (string.IsNullOrWhiteSpace(raw))
@@ -42,14 +51,29 @@ public class CompletionService : ICompletionService
         return raw;
     }
 
-    public async IAsyncEnumerable<string> GetCompletionStreamAsync(string prompt, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<string> GetCompletionStreamAsync(string prompt, [EnumeratorCancellation] CancellationToken ct = default)
     {
-        var updates = _client.CompleteChatStreamingAsync(
-        [
-            new UserChatMessage(prompt)
-        ]);
+        ChatMessage[] messages = [new UserChatMessage(prompt)];
+        await foreach (var chunk in GetCompletionStreamAsync(messages, new ChatCompletionOptions(), ct))
+        {
+            yield return chunk;
+        }
+    }
 
-        await foreach (var update in updates.WithCancellation(cancellationToken))
+    public async IAsyncEnumerable<string> GetCompletionStreamAsync(string prompt, IEnumerable<ChatMessage> chatHistory, [EnumeratorCancellation] CancellationToken ct = default)
+    {
+        ChatMessage[] messages = chatHistory.Append(new UserChatMessage(prompt)).ToArray();
+        await foreach (var chunk in GetCompletionStreamAsync(messages, new ChatCompletionOptions(), ct))
+        {
+            yield return chunk;
+        }
+    }
+
+    private async IAsyncEnumerable<string> GetCompletionStreamAsync(ChatMessage[] messages, ChatCompletionOptions options, [EnumeratorCancellation] CancellationToken ct = default)
+    {
+        var updates = _client.CompleteChatStreamingAsync(messages, options, cancellationToken: ct);
+
+        await foreach (var update in updates.WithCancellation(ct))
         {
             // Each update may contain 0..n content deltas; yield the text deltas
             if (update.ContentUpdate.Count > 0)
@@ -61,7 +85,7 @@ public class CompletionService : ICompletionService
         }
     }
 
-    public async Task<T> GetStructuredCompletionAsync<T>(string prompt) where T : class
+    public async Task<T> GetStructuredCompletionAsync<T>(string prompt, CancellationToken ct = default) where T : class
     {
         var schema = JsonSchema.FromType<T>();
         var schemaJson = schema.ToJson();
@@ -75,17 +99,12 @@ public class CompletionService : ICompletionService
             )
         };
 
-        var completion = await _client.CompleteChatAsync(
-            [
-                new SystemChatMessage("Follow the provided JSON schema exactly. Return ONLY minified JSON."),
-                new UserChatMessage(prompt)
-            ],
-            options
-        );
-
-        var raw = completion.Value.Content.FirstOrDefault()?.Text?.Trim();
-        if (string.IsNullOrWhiteSpace(raw))
-            throw new CompletionEmptyException("Received empty completion from model.");
+        ChatMessage[] messages = [
+            new SystemChatMessage("Follow the provided JSON schema exactly. Return ONLY minified JSON."),
+            new UserChatMessage(prompt)
+        ];
+        
+        var raw = await GetCompletionAsync(messages, options, ct);
 
         var result = JsonSerializer.Deserialize<T>(raw, new JsonSerializerOptions
         {
