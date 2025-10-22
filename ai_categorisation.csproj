@@ -1,24 +1,43 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFrameworks>net9.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+    <!-- NuGet metadata -->
+    <IsPackable>true</IsPackable>
+    <PackageId>kvandijk.AI</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Kevin van Dijk</Authors>
+    <Company>kvandijk</Company>
+    <Description>Utilities and services for OpenAI in .NET (streaming, structured, etc.).</Description>
+    <PackageTags>openai;ai;chat;streaming;structured-output</PackageTags>
+    <PackageProjectUrl>https://github.com/k-vandijk/kvandijk.AI</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/k-vandijk/kvandijk.AI.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
+    <!-- Quality: docs, SourceLink, deterministic builds, symbols -->
+    <!--<GenerateDocumentationFile>true</GenerateDocumentationFile>-->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <Deterministic>true</Deterministic>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+    <EnablePackageValidation>true</EnablePackageValidation>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Azure.Core" Version="1.49.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.10" />
     <PackageReference Include="NJsonSchema" Version="11.5.1" />
     <PackageReference Include="OpenAI" Version="2.5.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update=".env">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="README.md" Pack="true" PackagePath="" Visible="false" Condition="Exists('README.md')" />
   </ItemGroup>
-
 </Project>
