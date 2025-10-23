@@ -1,46 +1,44 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFrameworks>net9.0</TargetFrameworks>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	<PropertyGroup>
+		<TargetFrameworks>net9.0</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 
-    <!-- NuGet metadata -->
-    <IsPackable>true</IsPackable>
-    <PackageId>kvandijk.AI</PackageId>
-    <Version>0.1.$(Rev:r)</Version>
-    <Authors>Kevin van Dijk</Authors>
-    <Company>kvandijk</Company>
-    <Description>Utilities and services for OpenAI in .NET (streaming, structured, etc.).</Description>
-    <PackageTags>openai;ai;chat;streaming;structured-output</PackageTags>
-    <PackageProjectUrl>https://github.com/k-vandijk/kvandijk.AI</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/k-vandijk/kvandijk.AI.git</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+		<!-- NuGet metadata -->
+		<IsPackable>true</IsPackable>
+		<PackageId>kvandijk.AI</PackageId>
+		<Version>0.2.0</Version>
+		<Authors>Kevin van Dijk</Authors>
+		<Company>kvandijk</Company>
+		<Description>Utilities and services for OpenAI in .NET (streaming, structured, etc.).</Description>
+		<PackageTags>openai;ai;chat;streaming;structured-output</PackageTags>
+		<PackageProjectUrl>https://github.com/k-vandijk/kvandijk.AI</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/k-vandijk/kvandijk.AI.git</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 
-    <!-- Quality: docs, SourceLink, deterministic builds, symbols -->
-    <!--<GenerateDocumentationFile>true</GenerateDocumentationFile>-->
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <Deterministic>true</Deterministic>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<!-- Quality: docs, SourceLink, deterministic builds, symbols -->
+		<!--<GenerateDocumentationFile>true</GenerateDocumentationFile>-->
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<Deterministic>true</Deterministic>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
-    <EnablePackageValidation>true</EnablePackageValidation>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <None Remove=".gitignore" />
-    <None Remove="CONTRIBUTE.md" />
-    <None Remove="GitVersion.yml" />
-    <None Remove="README.md" />
-  </ItemGroup>
+		<EnablePackageValidation>true</EnablePackageValidation>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Azure.Core" Version="1.49.0" />
-    <PackageReference Include="NJsonSchema" Version="11.5.1" />
-    <PackageReference Include="OpenAI" Version="2.5.0" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="\" />
+		<None Include="CONTRIBUTE.md" Pack="false" />
+		<None Include=".gitignore" Pack="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Azure.Core" Version="1.49.0" />
+		<PackageReference Include="NJsonSchema" Version="11.5.1" />
+		<PackageReference Include="OpenAI" Version="2.5.0" />
+	</ItemGroup>
 </Project>
