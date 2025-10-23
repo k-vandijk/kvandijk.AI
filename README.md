@@ -1,4 +1,12 @@
-﻿# Setup
+# Installing  the package
+
+Install the package using the following command:
+
+```bash
+dotnet add package kvandijk.AI
+```
+
+# Setup
 
 ## Environment variables
 
