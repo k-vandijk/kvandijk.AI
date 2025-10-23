@@ -15,9 +15,9 @@ public class CompletionService : ICompletionService
 
     public CompletionService()
     {
-        var url = Environment.GetEnvironmentVariable("OPENAI_URL") ?? throw new ArgumentNullException("OPENAI_URL");
+        var url = Environment.GetEnvironmentVariable("OPENAI_ENDPOINT") ?? throw new ArgumentNullException("OPENAI_ENDPOINT");
         var key = Environment.GetEnvironmentVariable("OPENAI_KEY") ?? throw new ArgumentNullException("OPENAI_KEY");
-        var dep = Environment.GetEnvironmentVariable("OPENAI_DEP") ?? throw new ArgumentNullException("OPENAI_DEP");
+        var dep = Environment.GetEnvironmentVariable("OPENAI_DEPLOYMENT") ?? throw new ArgumentNullException("OPENAI_DEPLOYMENT");
 
         _client = new(
             credential: new ApiKeyCredential(key),

@@ -10,9 +10,9 @@ To publish changes to the NuGet package, follow these steps:
    ```
 4. Publish the package to NuGet.org using the following commands:
    ```bash
-   dotnet nuget push "bin/Release/kvandijk.AI.<VERSION>.nupkg" --api-key <JOUW_API_KEY> --source https://api.nuget.org/v3/index.json
+   dotnet nuget push "bin/Release/kvandijk.AI.<VERSION>.nupkg" --api-key <YOUR_API_KEY> --source https://api.nuget.org/v3/index.json
    ```
 
    ```bash
-   dotnet nuget push "bin/Release/kvandijk.AI.<VERSION>.snupkg" --api-key <JOUW_API_KEY> --source https://api.nuget.org/v3/index.json
+   dotnet nuget push "bin/Release/kvandijk.AI.<VERSION>.snupkg" --api-key <YOUR_API_KEY> --source https://api.nuget.org/v3/index.json
    ```

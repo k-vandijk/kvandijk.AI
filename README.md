@@ -1,3 +1,6 @@
+
+A utilities and services package for OpenAI in .NET (streaming, structured, etc.). 
+
 # Installing  the package
 
 Install the package using the following command:
