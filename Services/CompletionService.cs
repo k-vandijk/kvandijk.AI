@@ -15,9 +15,9 @@ public class CompletionService : ICompletionService
 
     public CompletionService()
     {
-        var url = Environment.GetEnvironmentVariable("OPENAI_ENDPOINT") ?? throw new ArgumentNullException("OPENAI_ENDPOINT");
-        var key = Environment.GetEnvironmentVariable("OPENAI_KEY") ?? throw new ArgumentNullException("OPENAI_KEY");
-        var dep = Environment.GetEnvironmentVariable("OPENAI_DEPLOYMENT") ?? throw new ArgumentNullException("OPENAI_DEPLOYMENT");
+        var url = Environment.GetEnvironmentVariable("OPENAI_ENDPOINT") ?? throw new MissingEnvironmentVariableException("OPENAI_ENDPOINT");
+        var key = Environment.GetEnvironmentVariable("OPENAI_KEY") ?? throw new MissingEnvironmentVariableException("OPENAI_KEY");
+        var dep = Environment.GetEnvironmentVariable("OPENAI_DEPLOYMENT") ?? throw new MissingEnvironmentVariableException("OPENAI_DEPLOYMENT");
 
         _client = new(
             credential: new ApiKeyCredential(key),
@@ -34,13 +34,12 @@ public class CompletionService : ICompletionService
         return await GetCompletionAsync(messages, new ChatCompletionOptions(), ct);
     }
 
-    public async Task<string> GetCompletionAsync(string prompt, IEnumerable<ChatMessage> chatHistory, CancellationToken ct = default)
+    public async Task<string> GetCompletionAsync(IEnumerable<ChatMessage> messages, CancellationToken ct = default)
     {
-        ChatMessage[] messages = chatHistory.Append(new UserChatMessage(prompt)).ToArray();
         return await GetCompletionAsync(messages, new ChatCompletionOptions(), ct);
     }
 
-    private async Task<string> GetCompletionAsync(ChatMessage[] messages, ChatCompletionOptions options, CancellationToken ct)
+    private async Task<string> GetCompletionAsync(IEnumerable<ChatMessage> messages, ChatCompletionOptions options, CancellationToken ct)
     {
         var completion = await _client.CompleteChatAsync(messages, options, cancellationToken: ct);
 
@@ -60,20 +59,19 @@ public class CompletionService : ICompletionService
         }
     }
 
-    public async IAsyncEnumerable<string> GetCompletionStreamAsync(string prompt, IEnumerable<ChatMessage> chatHistory, [EnumeratorCancellation] CancellationToken ct = default)
+    public async IAsyncEnumerable<string> GetCompletionStreamAsync(IEnumerable<ChatMessage> messages, [EnumeratorCancellation] CancellationToken ct = default)
     {
-        ChatMessage[] messages = chatHistory.Append(new UserChatMessage(prompt)).ToArray();
         await foreach (var chunk in GetCompletionStreamAsync(messages, new ChatCompletionOptions(), ct))
         {
             yield return chunk;
         }
     }
 
-    private async IAsyncEnumerable<string> GetCompletionStreamAsync(ChatMessage[] messages, ChatCompletionOptions options, [EnumeratorCancellation] CancellationToken ct = default)
+    private async IAsyncEnumerable<string> GetCompletionStreamAsync(IEnumerable<ChatMessage> messages, ChatCompletionOptions options, [EnumeratorCancellation] CancellationToken ct = default)
     {
         var updates = _client.CompleteChatStreamingAsync(messages, options, cancellationToken: ct);
 
-        await foreach (var update in updates.WithCancellation(ct))
+        await foreach (var update in updates)
         {
             // Each update may contain 0..n content deltas; yield the text deltas
             if (update.ContentUpdate.Count > 0)
