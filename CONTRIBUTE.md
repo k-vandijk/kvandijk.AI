@@ -12,7 +12,3 @@ To publish changes to the NuGet package, follow these steps:
    ```bash
    dotnet nuget push "bin/Release/kvandijk.AI.<VERSION>.nupkg" --api-key <YOUR_API_KEY> --source https://api.nuget.org/v3/index.json
    ```
-
-   ```bash
-   dotnet nuget push "bin/Release/kvandijk.AI.<VERSION>.snupkg" --api-key <YOUR_API_KEY> --source https://api.nuget.org/v3/index.json
-   ```

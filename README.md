@@ -17,6 +17,7 @@ Create a deployment in Azure OpenAI and set the following environment variables 
 
 - `OPENAI_ENDPOINT`: Your OpenAI endpoint URL.
 - `OPENAI_DEPLOYMENT`: Your deployment name for the OpenAI model.
+- `OPENAI_EMBEDDING_DEPLOYMENT`: Your deployment name for the OpenAI embedding model.
 - `OPENAI_KEY`: Your OpenAI API key.
 
 ## Program.cs

@@ -8,7 +8,7 @@
 		<!-- NuGet metadata -->
 		<IsPackable>true</IsPackable>
 		<PackageId>kvandijk.AI</PackageId>
-		<Version>0.2.1</Version>
+		<Version>0.3.0</Version>
 		<Authors>Kevin van Dijk</Authors>
 		<Company>kvandijk</Company>
 		<Description>Utilities and services for OpenAI in .NET (streaming, structured, etc.).</Description>
@@ -37,8 +37,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Azure.Core" Version="1.49.0" />
-		<PackageReference Include="NJsonSchema" Version="11.5.1" />
-		<PackageReference Include="OpenAI" Version="2.5.0" />
+		<PackageReference Include="Azure.Core" Version="1.50.0" />
+		<PackageReference Include="NJsonSchema" Version="11.5.2" />
+		<PackageReference Include="OpenAI" Version="2.7.0" />
 	</ItemGroup>
 </Project>

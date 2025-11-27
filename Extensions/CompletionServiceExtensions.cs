@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace kvandijk.AI.Extensions;
 
-public static class ServiceExtensions
+public static class CompletionServiceExtensions
 {
     public static IServiceCollection AddCompletionService(this IServiceCollection services)
     {
