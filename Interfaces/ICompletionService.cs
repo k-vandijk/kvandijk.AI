@@ -12,4 +12,5 @@ public interface ICompletionService
     IAsyncEnumerable<CompletionResponse> GetCompletionStreamAsync(IEnumerable<ChatMessage> messages, CancellationToken ct = default);
 
     Task<StructuredCompletionResponse<T>> GetStructuredCompletionAsync<T>(string prompt, CancellationToken ct = default) where T : class;
+    Task<StructuredCompletionResponse<T>> GetStructuredCompletionAsync<T>(IEnumerable<ChatMessage> messages, CancellationToken ct = default) where T : class;
 }

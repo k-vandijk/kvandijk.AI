@@ -109,22 +109,24 @@ public class CompletionService : ICompletionService
 
     public async Task<StructuredCompletionResponse<T>> GetStructuredCompletionAsync<T>(string prompt, CancellationToken ct = default) where T : class
     {
+        ChatMessage[] messages = [new UserChatMessage(prompt)];
+        return await GetStructuredCompletionAsync<T>(messages, new ChatCompletionOptions(), ct);
+    }
+
+    public async Task<StructuredCompletionResponse<T>> GetStructuredCompletionAsync<T>(IEnumerable<ChatMessage> messages, CancellationToken ct = default) where T : class
+    {
+        return await GetStructuredCompletionAsync<T>(messages, new ChatCompletionOptions(), ct);
+    }
+
+    private async Task<StructuredCompletionResponse<T>> GetStructuredCompletionAsync<T>(IEnumerable<ChatMessage> messages, ChatCompletionOptions options, CancellationToken ct) where T : class
+    {
         var schema = JsonSchema.FromType<T>();
         var schemaJson = schema.ToJson();
-
-        var options = new ChatCompletionOptions
-        {
-            ResponseFormat = ChatResponseFormat.CreateJsonSchemaFormat(
-                jsonSchemaFormatName: typeof(T).Name,
-                jsonSchema: BinaryData.FromString(schemaJson),
-                jsonSchemaIsStrict: false
-            )
-        };
-
-        ChatMessage[] messages = [
-            new SystemChatMessage("Follow the provided JSON schema exactly. Return ONLY minified JSON."),
-            new UserChatMessage(prompt)
-        ];
+        options.ResponseFormat = ChatResponseFormat.CreateJsonSchemaFormat(
+            jsonSchemaFormatName: typeof(T).Name,
+            jsonSchema: BinaryData.FromString(schemaJson),
+            jsonSchemaIsStrict: false
+        );
 
         var completion = await _client.CompleteChatAsync(messages, options, cancellationToken: ct);
 
